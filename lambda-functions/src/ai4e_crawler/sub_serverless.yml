@@ -1,0 +1,13 @@
+ai4e_crawler:
+  name: ${self:custom.prefix}-ai4e_crawler
+  handler: src.ai4e_crawler.crawler.lambda_handler
+  layers:
+    - Ref: PythonRequirementsLambdaLayer
+  environment:
+    NAME:  ${env:NAMESPACE}
+
+ai4e_rds2raw_movie:
+  name: ${self:custom.prefix}-ai4e_rds2raw_movie
+  handler: src.ai4e_crawler.rds2raw_movie.lambda_handler
+  layers:
+    - Ref: PythonRequirementsLambdaLayer

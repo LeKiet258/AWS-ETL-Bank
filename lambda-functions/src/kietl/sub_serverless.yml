@@ -1,0 +1,9 @@
+kietl_lambda:
+  name: ${self:custom.prefix}-kietl_lambda
+  handler: src.kietl.lambda_kietl.pg_to_s3
+  layers:
+    - Ref: PythonRequirementsLambdaLayer
+  environment:
+    NAME:  ${env:NAMESPACE} # check variables on CodeBuild
+
+

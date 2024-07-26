@@ -1,0 +1,166 @@
+{
+    "Comment": "Orchestration state machine for Glue job",
+    "StartAt": "Prepare Glue job input",
+    "States": {
+      "Prepare Glue job input": {
+        "Type": "Task",
+        "Resource": "arn:aws:states:::lambda:invoke",
+        "Parameters": {
+          "FunctionName": "lambda_adapter",
+          "Payload": {
+            "adapter.$": "$.config.glue_args_adapter",
+            "config.$": "$.config",
+            "event.$": "$.event"
+          }
+        },
+        "Retry": [
+          {
+            "ErrorEquals": [
+              "Lambda.TooManyRequestsException"
+            ],
+            "IntervalSeconds": 10,
+            "MaxAttempts": 3,
+            "BackoffRate": 10
+          }
+        ],
+        "Comment": "For Lambda.TooManyRequestsException retry 3 times after 10s, 100s, 1000s",
+        "ResultPath": "$.glue_job_args",
+        "Next": "Start Glue job"
+      },
+      "Start Glue job": {
+        "Type": "Task",
+        "Resource": "arn:aws:states:::glue:startJobRun.sync",
+        "Parameters": {
+          "JobName.$": "$.config.glue_job",
+          "Arguments.$": "$.glue_job_args.Payload"
+        },
+        "ResultPath": "$.glue_job_output",
+        "Retry": [
+          {
+            "ErrorEquals": [
+              "Glue.ConcurrentRunsExceededException",
+              "Glue.AWSGlueException"
+            ],
+            "IntervalSeconds": 10,
+            "MaxAttempts": 3,
+            "BackoffRate": 10
+          }
+        ],
+        "Comment": "For Glue.ConcurrentRunsExceededException and ThrottlingException, retry 3 times after 10s, 100s, 1000s",
+        "Catch": [
+          {
+            "ErrorEquals": [
+              "States.ALL"
+            ],
+            "ResultPath": "$.glue_job_output",
+            "Next": "Fail state"
+          }
+        ],
+        "Next": "Glue crawler exists?"
+      },
+  
+      "Glue crawler exists?": {
+        "Type": "Choice",
+        "Choices": [
+          {
+            "Variable": "$.config.glue_crawler",
+            "IsPresent": false,
+            "Next": "Pass state"
+          },
+          {
+            "Variable": "$.config.glue_crawler",
+            "IsPresent": true,
+            "Next": "Run Glue crawler"
+          }
+        ]
+      },
+      "Run Glue crawler": {
+        "Type": "Task",
+        "Resource": "arn:aws:states:::lambda:invoke",
+        "Parameters": {
+          "FunctionName": "lambda_run_glue_crawler",
+          "Payload": {
+            "crawlers.$": "$.config.glue_crawler",
+            "job_to_sync.$": "$.config.glue_job"
+          }
+        },
+        "Retry": [
+          {
+            "ErrorEquals": [
+              "Lambda.TooManyRequestsException"
+            ],
+            "IntervalSeconds": 10,
+            "MaxAttempts": 3,
+            "BackoffRate": 10
+          }
+        ],
+        "Comment": "For Lambda.TooManyRequestsException retry 3 times after 10s, 100s, 1000s",
+        "ResultPath": "$.glue_crwl_output",
+        "Next": "Skip crawler?"
+      },
+      "Skip crawler?": {
+        "Type": "Choice",
+        "Choices": [
+          {
+            "Variable": "$.glue_crwl_output.Payload.skip_run_crawler",
+            "BooleanEquals": true,
+            "Next": "Pass state"
+          }
+        ],
+        "Default": "Wait for crawler"
+      },
+      "Wait for crawler": {
+        "Type": "Wait",
+        "Seconds": 20,
+        "Next": "Get crawler state"
+      },
+      "Get crawler state": {
+        "Type": "Task",
+        "Resource": "arn:aws:states:::lambda:invoke",
+        "Parameters": {
+          "FunctionName": "lambda_fetch_glue_crawler_status",
+          "Payload": {
+            "crawlers.$": "$.config.glue_crawler"
+          }
+        },
+        "Retry": [
+          {
+            "ErrorEquals": [
+              "Lambda.TooManyRequestsException"
+            ],
+            "IntervalSeconds": 10,
+            "MaxAttempts": 3,
+            "BackoffRate": 10
+          }
+        ],
+        "Comment": "For Lambda.TooManyRequestsException retry 3 times after 10s, 100s, 1000s",
+        "ResultPath": "$.glue_crwl_state",
+        "Next": "Crawler successful?"
+      },
+      "Crawler successful?": {
+        "Type": "Choice",
+        "Choices": [
+          {
+            "Variable": "$.glue_crwl_state.Payload.status",
+            "StringEquals": "SUCCEEDED",
+            "Next": "Pass state"
+          },
+          {
+            "Variable": "$.glue_crwl_state.Payload.status",
+            "StringEquals": "FAILED",
+            "Next": "Fail state"
+          }
+        ],
+        "Default": "Wait for crawler"
+      },
+  
+  
+      "Fail state": {
+        "Type": "Fail"
+      },
+      "Pass state": {
+        "Type": "Succeed"
+      }
+    }
+  }
+  

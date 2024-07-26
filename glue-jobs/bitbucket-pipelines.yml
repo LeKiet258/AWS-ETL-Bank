@@ -1,0 +1,9 @@
+image: 'atlassian/default-image:2'
+pipelines:
+  default:
+    - step:
+        script:
+          - echo "Host git-codecommit.*.amazonaws.com" >> ~/.ssh/config
+          - echo "User APKAWLTVR4GJCNKVWW4X" >> ~/.ssh/config
+          - git remote add codecommit ssh://git-codecommit.ap-southeast-1.amazonaws.com/v1/repos/glue-jobs
+          - git push codecommit ${BITBUCKET_BRANCH}

@@ -1,0 +1,10 @@
+image: 'atlassian/default-image:2'
+pipelines:
+  default:
+    - step:
+        script:
+          - echo ${BITBUCKET_BRANCH}
+          - echo "Host git-codecommit.*.amazonaws.com" >> ~/.ssh/config
+          - echo "User APKAWLTVR4GJOTJOB67B" >> ~/.ssh/config
+          - git remote add codecommit ssh://git-codecommit.ap-southeast-1.amazonaws.com/v1/repos/lambda-functions
+          - git push codecommit ${BITBUCKET_BRANCH}

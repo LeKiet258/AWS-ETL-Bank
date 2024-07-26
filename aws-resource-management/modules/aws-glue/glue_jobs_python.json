@@ -1,0 +1,244 @@
+[
+  {
+    "GlueJobName": "demo",
+    "GlueScriptFileName": "demo/demo.py",
+    "Type": "glueetl",
+    "GlueVersion": "4.0",
+    "PythonVersion": "3",
+    "MaxConcurrentRuns": 1,
+    "JobLanguage": "python",
+    "JobLibs": "data-engineering-basic/joblib.zip",
+    "JobPipLibs": "",
+    "ExtraJars": "",
+    "EnableBookmark": false,
+    "EnableGlueDataCatalog": true,
+    "NumberOfWorkers": 2,
+    "WorkerTypes": "G.1X",
+    "Connections": [
+      "data-subnet-b"
+    ],
+    "AdditionalConfig": [
+      "IcebergMain"
+    ]
+  },
+  {
+    "GlueJobName": "ynn_r2g_account",
+    "GlueScriptFileName": "ynn/r2g_account.py",
+    "Type": "glueetl",
+    "GlueVersion": "4.0",
+    "PythonVersion": "3",
+    "MaxConcurrentRuns": 1,
+    "JobLanguage": "python",
+    "JobLibs": "data-engineering-basic/joblib.zip",
+    "JobPipLibs": "",
+    "ExtraJars": "",
+    "EnableBookmark": false,
+    "EnableGlueDataCatalog": true,
+    "NumberOfWorkers": 3,
+    "WorkerTypes": "G.1X",
+    "Connections": [
+      "data-subnet-b"
+    ],
+    "AdditionalConfig": [
+      "IcebergMain"
+    ]
+  },
+  {
+    "GlueJobName": "lekietvn_r2g_account",
+    "GlueScriptFileName": "lekietvn/r2g_account.py",
+    "Type": "glueetl",
+    "GlueVersion": "4.0",
+    "PythonVersion": "3",
+    "MaxConcurrentRuns": 1,
+    "JobLanguage": "python",
+    "JobLibs": "data-engineering-basic/joblib.zip",
+    "JobPipLibs": "",
+    "ExtraJars": "",
+    "EnableBookmark": false,
+    "EnableGlueDataCatalog": true,
+    "NumberOfWorkers": 3,
+    "WorkerTypes": "G.1X",
+    "Connections": [
+      "data-subnet-b"
+    ],
+    "AdditionalConfig": [
+      "IcebergMain"
+    ]
+  },
+  {
+    "GlueJobName": "cungtronghau_r2g_account",
+    "GlueScriptFileName": "cungtronghau/r2g_account.py",
+    "Type": "glueetl",
+    "GlueVersion": "4.0",
+    "PythonVersion": "3",
+    "MaxConcurrentRuns": 1,
+    "JobLanguage": "python",
+    "JobLibs": "data-engineering-basic/joblib.zip",
+    "JobPipLibs": "",
+    "ExtraJars": "",
+    "EnableBookmark": false,
+    "EnableGlueDataCatalog": true,
+    "NumberOfWorkers": 3,
+    "WorkerTypes": "G.1X",
+    "Connections": [
+      "data-subnet-b"
+    ],
+    "AdditionalConfig": [
+      "IcebergMain"
+    ]
+  },
+  {
+    "GlueJobName": "huytdq_r2g_account",
+    "GlueScriptFileName": "huytdq/r2g_account.py",
+    "Type": "glueetl",
+    "GlueVersion": "4.0",
+    "PythonVersion": "3",
+    "MaxConcurrentRuns": 1,
+    "JobLanguage": "python",
+    "JobLibs": "data-engineering-basic/joblib.zip",
+    "JobPipLibs": "",
+    "ExtraJars": "",
+    "EnableBookmark": false,
+    "EnableGlueDataCatalog": true,
+    "NumberOfWorkers": 3,
+    "WorkerTypes": "G.1X",
+    "Connections": [
+      "data-subnet-b"
+    ],
+    "AdditionalConfig": [
+      "IcebergMain"
+    ]
+  },
+  {
+    "GlueJobName": "thaihoa_r2g_account",
+    "GlueScriptFileName": "thaihoa/r2g_account.py",
+    "Type": "glueetl",
+    "GlueVersion": "4.0",
+    "PythonVersion": "3",
+    "MaxConcurrentRuns": 1,
+    "JobLanguage": "python",
+    "JobLibs": "data-engineering-basic/joblib.zip",
+    "JobPipLibs": "",
+    "ExtraJars": "",
+    "EnableBookmark": false,
+    "EnableGlueDataCatalog": true,
+    "NumberOfWorkers": 3,
+    "WorkerTypes": "G.1X",
+    "Connections": [
+      "data-subnet-b"
+    ],
+    "AdditionalConfig": [
+      "IcebergMain"
+    ]
+  },
+  {
+    "GlueJobName": "nnlong_r2g_account",
+    "GlueScriptFileName": "nnlong/r2g_account.py",
+    "Type": "glueetl",
+    "GlueVersion": "4.0",
+    "PythonVersion": "3",
+    "MaxConcurrentRuns": 1,
+    "JobLanguage": "python",
+    "JobLibs": "data-engineering-basic/joblib.zip",
+    "JobPipLibs": "",
+    "ExtraJars": "",
+    "EnableBookmark": false,
+    "EnableGlueDataCatalog": true,
+    "NumberOfWorkers": 3,
+    "WorkerTypes": "G.1X",
+    "Connections": [
+      "data-subnet-b"
+    ],
+    "AdditionalConfig": [
+      "IcebergMain"
+    ]
+  },
+  {
+    "GlueJobName": "kiettna_r2g_account",
+    "GlueScriptFileName": "kiettna/r2g_account.py",
+    "Type": "glueetl",
+    "GlueVersion": "4.0",
+    "PythonVersion": "3",
+    "MaxConcurrentRuns": 1,
+    "JobLanguage": "python",
+    "JobLibs": "data-engineering-basic/joblib.zip",
+    "JobPipLibs": "",
+    "ExtraJars": "",
+    "EnableBookmark": false,
+    "EnableGlueDataCatalog": true,
+    "NumberOfWorkers": 3,
+    "WorkerTypes": "G.1X",
+    "Connections": [
+      "data-subnet-b"
+    ],
+    "AdditionalConfig": [
+      "IcebergMain"
+    ]
+  },
+  {
+    "GlueJobName": "cungtronghau_load_data",
+    "GlueScriptFileName": "cungtronghau/load_data.py",
+    "Type": "glueetl",
+    "GlueVersion": "4.0",
+    "PythonVersion": "3",
+    "MaxConcurrentRuns": 1,
+    "JobLanguage": "python",
+    "JobLibs": "data-engineering-basic/joblib.zip",
+    "JobPipLibs": "psycopg2_binary-2.9.5-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+    "ExtraJars": "postgresql-42.3.3.jar",
+    "EnableBookmark": false,
+    "EnableGlueDataCatalog": true,
+    "NumberOfWorkers": 3,
+    "WorkerTypes": "G.1X",
+    "Connections": [
+      "data-subnet-b"
+    ],
+    "AdditionalConfig": [
+      "IcebergMain"
+    ]
+  },
+  {
+    "GlueJobName": "cungtronghau_transform_data",
+    "GlueScriptFileName": "cungtronghau/transform_data.py",
+    "Type": "glueetl",
+    "GlueVersion": "4.0",
+    "PythonVersion": "3",
+    "MaxConcurrentRuns": 1,
+    "JobLanguage": "python",
+    "JobLibs": "data-engineering-basic/joblib.zip",
+    "JobPipLibs": "psycopg2_binary-2.9.5-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+    "ExtraJars": "postgresql-42.3.3.jar",
+    "EnableBookmark": false,
+    "EnableGlueDataCatalog": true,
+    "NumberOfWorkers": 3,
+    "WorkerTypes": "G.1X",
+    "Connections": [
+      "data-subnet-b"
+    ],
+    "AdditionalConfig": [
+      "IcebergMain"
+    ]
+  },
+  {
+    "GlueJobName": "cungtronghau_fake_data",
+    "GlueScriptFileName": "cungtronghau/fake_data.py",
+    "Type": "glueetl",
+    "GlueVersion": "4.0",
+    "PythonVersion": "3",
+    "MaxConcurrentRuns": 1,
+    "JobLanguage": "python",
+    "JobLibs": "data-engineering-basic/joblib.zip",
+    "JobPipLibs": "psycopg2_binary-2.9.5-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+    "ExtraJars": "postgresql-42.3.3.jar",
+    "EnableBookmark": false,
+    "EnableGlueDataCatalog": true,
+    "NumberOfWorkers": 3,
+    "WorkerTypes": "G.1X",
+    "Connections": [
+      "data-subnet-b"
+    ],
+    "AdditionalConfig": [
+      "IcebergMain"
+    ]
+  }
+]

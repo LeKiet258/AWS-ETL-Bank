@@ -1,0 +1,7 @@
+requests
+bs4
+lxml
+psycopg2-binary
+selenium
+pandas
+json

@@ -1,0 +1,12 @@
+[
+    {
+        "prefix": "ai4e",
+        "create_new": false,
+        "database": "demo"
+    },
+    {
+        "prefix": "bites",
+        "create_new": true,
+        "database": "eda"
+    }
+]

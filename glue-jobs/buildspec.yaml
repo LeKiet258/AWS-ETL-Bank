@@ -1,0 +1,24 @@
+version: 0.2
+
+env:
+  shell: bash
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.11
+    commands:
+      - echo "Begin install if needed"
+
+  pre_build:
+    commands:
+      - echo "Copy resource to artifact"
+      - source deployment/init_artifacts.sh
+
+  build:
+    commands:
+      - echo "Not need build - go"
+
+  post_build:
+    commands:
+      - echo "deployment complete on `date`"

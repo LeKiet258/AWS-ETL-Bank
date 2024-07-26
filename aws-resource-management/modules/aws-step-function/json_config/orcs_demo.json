@@ -1,0 +1,141 @@
+{
+    "Comment": "A description of my state machine",
+    "StartAt": "crawl_data",
+    "States": {
+      "crawl_data": {
+        "Type": "Task",
+        "Resource": "arn:aws:states:::lambda:invoke",
+        "Parameters": {
+            "FunctionName": "lbd-func-ai4e_crawler",
+            "Payload.$": "$"
+        },
+        "ResultPath": "$.output_crawl_data",
+        "Retry": [
+            {
+                "ErrorEquals": [
+                    "Lambda.ServiceException",
+                    "Lambda.AWSLambdaException",
+                    "Lambda.SdkClientException",
+                    "Lambda.TooManyRequestsException"
+                ],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 6,
+                "BackoffRate": 2
+            }
+        ],
+        "Next": "is_crawl_success?"
+        },
+        "is_crawl_success?": {
+            "Type": "Choice",   
+            "Choices": [
+                {
+                    "Variable": "$.output_crawl_data.Payload.status",
+                    "StringEquals": "SUCCESS",
+                    "Next": "load_data_to_raw"
+                },
+                {
+                    "Variable": "$.output_crawl_data.Payload.status",
+                    "StringEquals": "FAIL",
+                    "Next": "fail_state"
+                }
+            ]
+        },
+        "load_data_to_raw": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::lambda:invoke",
+            "Parameters": {
+                "FunctionName": "lbd-func-ai4e_rds2raw_movie",
+                "Payload.$": "$"
+            },
+            "ResultPath": "$.output_load_data_to_raw",
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "Lambda.ServiceException",
+                        "Lambda.AWSLambdaException",
+                        "Lambda.SdkClientException",
+                        "Lambda.TooManyRequestsException"
+                    ],
+                    "IntervalSeconds": 2,
+                    "MaxAttempts": 6,
+                    "BackoffRate": 2
+                }
+            ],
+            "Next": "is_load_success?"
+        },
+        "is_load_success?": {
+            "Type": "Choice",   
+            "Choices": [
+                {
+                    "Variable": "$.output_load_data_to_raw.Payload.status",
+                    "StringEquals": "SUCCESS",
+                    "Next": "call_glue_job"
+                },
+                {
+                    "Variable": "$.output_load_data_to_raw.Payload.status",
+                    "StringEquals": "FAIL",
+                    "Next": "fail_state"
+                }
+            ]
+        },
+        "call_glue_job": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::glue:startJobRun.sync",
+            "Parameters": {
+                "JobName": "ai4e-ap-southeast-1-dev-glue-jb-demo"
+            },
+            "Next": "check_crawler_exists"
+        },
+        "check_crawler_exists": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::aws-sdk:glue:getCrawler",
+            "Parameters": {
+                "Name": "ai4e-ap-southeast-1-dev-glue-cwl-golden_zone-demo_table"
+            },
+            "Next": "start_crawler",
+            "Catch": [ {
+                "ErrorEquals": ["Glue.EntityNotFoundException"],
+                "Next": "pass_state"
+             } ]
+        },
+        "start_crawler": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::aws-sdk:glue:startCrawler",
+            "Parameters": {
+                "Name": "ai4e-ap-southeast-1-dev-glue-cwl-golden_zone-demo_table"
+            },
+            "Next": "wait_crawler"
+        },
+        "wait_crawler": {
+            "Type": "Wait",   
+            "Seconds": 20,
+            "Next": "get_crawler_state"
+        },
+        "get_crawler_state": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::aws-sdk:glue:getCrawler",
+            "Parameters": {
+                "Name": "ai4e-ap-southeast-1-dev-glue-cwl-golden_zone-demo_table"
+            },
+            "ResultPath": "$.output_get_crawler_state",
+            "Next": "crawler_success?"
+        },
+        "crawler_success?": {
+            "Type": "Choice",   
+            "Choices": [
+                {
+                    "Variable": "$.output_get_crawler_state.Crawler.State",
+                    "StringEquals": "READY",
+                    "Next": "pass_state"
+                }
+            ],
+            "Default": "wait_crawler"
+        },
+        "fail_state": {
+            "Type": "Fail"
+        },
+            "pass_state": {
+            "Type": "Succeed"
+        }
+    }
+}

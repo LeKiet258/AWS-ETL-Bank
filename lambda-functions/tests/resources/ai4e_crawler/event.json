@@ -1,0 +1,48 @@
+{
+    "urls" : [
+        "https://phimmoiyyy.net/the-loai/phim-chieu-rap",
+        "https://phimmoiyyy.net/the-loai/phim-co-trang",
+        "https://phimmoiyyy.net/the-loai/phim-hanh-dong",
+        "https://phimmoiyyy.net/the-loai/phim-hoat-hinh",
+        "https://phimmoiyyy.net/the-loai/phim-tam-ly",
+        "https://phimmoiyyy.net/the-loai/phim-kinh-di",
+        "https://phimmoiyyy.net/the-loai/phim-netflix"
+    ],
+    "table_name": "ai4e_movie_test",
+    "bucket_name": "ai4e-ap-southeast-1-dev-s3-data-landing",
+    "object_key": "ynn/ai4e_movie_test.csv",
+    "data_field": [
+        {
+            "field": "id",
+            "type": "integer"
+        },
+        {
+            "field": "movie_link",
+            "type": "varchar"
+        },
+        {
+            "field": "poster_image_link",
+            "type": "varchar"
+        },
+        {
+            "field": "movie_name",
+            "type": "varchar"
+        },
+        {
+            "field": "movie_status",
+            "type": "varchar"
+        },
+        {
+            "field": "en_name",
+            "type": "varchar"
+        },
+        {
+            "field": "vn_name",
+            "type": "varchar"
+        },
+        {
+            "field": "category",
+            "type": "varchar"
+        }
+    ]
+}

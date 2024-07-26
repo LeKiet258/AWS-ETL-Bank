@@ -1,0 +1,74 @@
+{
+    "Comment": "Kietl state machine",
+    "StartAt": "Lambda_LoadRawToS3",
+    "States": {
+        "Lambda_LoadRawToS3": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::lambda:invoke",
+            "Parameters": {
+                "FunctionName": "lbd-func-kietl_lambda",
+                "Payload.$": "$"
+            },
+            "ResultPath": "$.output_crawl_data",
+            "Next": "Glue_S3toS3"
+        },
+
+        "Glue_S3toS3": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::glue:startJobRun.sync",
+            "Parameters": {
+                "JobName": "ai4e-ap-southeast-1-dev-glue-jb-lekietvn_r2g_account"
+            },
+            "Next": "Glue_CheckCrawlerExist"
+        },
+
+        "Glue_CheckCrawlerExist": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::aws-sdk:glue:getCrawler",
+            "Parameters": {
+                "Name": "ai4e-ap-southeast-1-dev-glue-cwl-golden_zone-demo_table"
+            },
+            "Next": "Glue_StartCrawler"
+        },
+
+        "Glue_StartCrawlers": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::aws-sdk:glue:startCrawler",
+            "Parameters": {
+                "Name": "ai4e-ap-southeast-1-dev-glue-cwl-golden_zone-kietl_dim_account_type"
+            },
+            "Next": "WaitCrawler"
+        },
+        "WaitCrawler": {
+            "Type": "Wait",   
+            "Seconds": 20,
+            "Next": "GetCrawlerState"
+        },
+        "GetCrawlerState": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::aws-sdk:glue:getCrawler",
+            "Parameters": {
+                "Name": "ai4e-ap-southeast-1-dev-glue-cwl-golden_zone-kietl_dim_account_type"
+            },
+            "ResultPath": "$.output_get_crawler_state",
+            "Next": "IsCrawlerSuccess"
+        }
+        "IsCrawlerSuccess": {
+            "Type": "Choice",   
+            "Choices": [
+                {
+                    "Variable": "$.output_get_crawler_state.Crawler.State",
+                    "StringEquals": "READY",
+                    "Next": "PassCrawler"
+                }
+            ],
+            "Default": "WaitCrawler"
+        },
+        "FailedCrawler": {
+            "Type": "Fail"
+        },
+        "PassCrawler": {
+            "Type": "Succeed"
+        }
+    }
+}

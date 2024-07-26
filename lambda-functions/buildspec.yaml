@@ -1,0 +1,43 @@
+version: 0.2
+
+env:
+  shell: bash
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.11
+    commands:
+      - echo "=========Begin install if needed========="
+      - python -m venv /root/.venv
+      - source /root/.venv/bin/activate
+      - pip install -r requirements.txt
+      # npm configuration
+      # here i configure npm to set the cache at /root/.npm
+      - npm init -y
+      - npm config -g set prefer-offline true
+      - npm config -g set cache /root/.npm
+      - npm config get cache
+      - npm install -g serverless@3.32.2
+      - npm install
+
+  pre_build:
+    commands:
+      - echo "=========Prebuild========="
+      - serverless plugin install -n serverless-python-requirements
+      - npm install serverless-deployment-bucket --save-dev
+
+  build:
+    commands:
+      - echo "=========Deploy serverless========="
+      - serverless deploy 
+
+  post_build:
+    commands:
+      - echo "=========deployment complete on `date`========="
+
+cache:
+  paths:
+    - '/root/.venv/**/*'
+    - '/root/.npm/**/*'
+    - 'node_modules/**/*'

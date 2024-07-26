@@ -1,0 +1,81 @@
+[
+  {
+    "namespace": "bites",
+    "database": "eda",
+    "table": "users"
+  },{
+    "namespace": "bites",
+    "database": "eda",
+    "table": "interactions"
+  },{
+    "namespace": "bites",
+    "database": "eda",
+    "table": "comments"
+  },{
+    "namespace": "bites",
+    "database": "eda",
+    "table": "footprints"
+  },{
+    "namespace": "bites",
+    "database": "eda",
+    "table": "posts"
+  },{
+    "namespace": "bites",
+    "database": "eda",
+    "table": "engagement_ga"
+  },{
+    "namespace": "bites",
+    "database": "eda",
+    "table": "eda_feature_store"
+  },{
+    "namespace": "bites",
+    "database": "eda",
+    "table": "post_reactor_summary"
+  },
+  {
+    "namespace": "golden_zone",
+    "database": "huytdq",
+    "table": "huytdq_account_data"
+  },{
+    "namespace": "golden_zone",
+    "database": "lekietvn",
+    "table": "lekietvn_account_data"
+  },{
+    "namespace": "golden_zone",
+    "database": "cungtronghau",
+    "table": "cungtronghau_account_data"
+  },{
+    "namespace": "golden_zone",
+    "database": "thaihoa",
+    "table": "thaihoa_account_data"
+  },{
+    "namespace": "golden_zone",
+    "database": "nnlong",
+    "table": "nnlong_account_data"
+  },{
+    "namespace": "golden_zone",
+    "database": "kiettna",
+    "table": "kiettna_account_data"
+  },{
+    "namespace": "golden_zone",
+    "database": "lekietvn",
+    "table": "kietl_dim_account_type"
+  },{
+    "namespace": "golden_zone",
+    "database": "lekietvn",
+    "table": "kietl_dim_account"
+  },{
+    "namespace": "golden_zone",
+    "database": "lekietvn",
+    "table": "kietl_dim_customer"
+  },{
+    "namespace": "golden_zone",
+    "database": "lekietvn",
+    "table": "kietl_dim_payment_transaction"
+  },{
+    "namespace": "golden_zone",
+    "database": "lekietvn",
+    "table": "kietl_dim_payment_type"
+  }
+
+]

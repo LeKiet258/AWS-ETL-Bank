@@ -1,0 +1,41 @@
+service: ai4e-lambda-c03
+
+frameworkVersion: "3"
+
+package:
+  exclude:
+    - node_modules/**
+    - README.md
+    - package.json
+    - package-lock.json
+    - buildspec.yaml
+    - bitbucket-pipelines.yml
+
+plugins:
+  - serverless-python-requirements
+  - serverless-deployment-bucket
+
+custom:
+  basePath: src
+  region: ap-southeast-1
+  prefix: lbd-func
+  pythonRequirements:
+    layer: true
+
+provider:
+  name: aws
+  runtime: python3.11
+  region: ap-southeast-1
+  memorySize: 128
+  timeout: 300
+  deploymentBucket:
+    name: ${env:LAMBDA_DEPLOYMENT_BUCKET_NAME}
+    maxPreviousDeploymentArtifacts: 10
+    blockPublicAccess: true
+    skipPolicySetup: true
+    versioning: true
+    serverSideEncryption: AES256
+
+functions:
+  - ${file(./src/kietl/sub_serverless.yml)}
+
