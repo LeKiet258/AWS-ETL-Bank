@@ -23,4 +23,5 @@ For data visualization, Metabase can be employed to enhance the analysis. Howeve
 # Details
 - S3: created 2 buckets for Raw Zone and Golden Zone
 - Sample Step function:
+
     ![Alt text](images/sample_step_function.png)
